@@ -1,177 +1,181 @@
-# 📘 CashControl API
 
-***Microserviço RESTful em Java 17 / Spring Boot 3 focado em reduzir danos de apostas compulsivas por meio de gamificação, ciência de dados e design comportamental.***
+===============================
+💻 CASHCONTROL — API RESTful
+===============================
 
----
+📌 Descrição:
+CashControl API é um microserviço desenvolvido em Java 17 com Spring Boot 3, focado em apoiar usuários na redução dos danos causados por apostas compulsivas. Através de endpoints bem estruturados, fornece recursos de cadastro, controle financeiro, sistema de badges e simulador de apostas vs investimentos. É a base backend que sustenta as funcionalidades do app mobile, com foco em segurança, escalabilidade e boas práticas de desenvolvimento.
 
-## 🎯 Objetivos do Projeto
+---------------------------------------
+🛠️ Tecnologias Utilizadas
+---------------------------------------
+- Java 17
+- Spring Boot 3.5
+- Spring Security
+- Spring Data JPA
+- H2 Database (Desenvolvimento)
+- PostgreSQL (Produção)
+- Swagger (springdoc-openapi)
+- Maven
+- JUnit 5 + Mockito (Testes)
+- Git + GitHub (Versionamento)
+- Docker e Docker Compose (Containerização)
+- GitHub Actions (CI/CD)
 
-1. Prover um **MVP** de aplicação financeira simulada com foco na prevenção de comportamentos de risco.
-2. Implementar **API RESTful** modular, versionada e documentada.
-3. Integrar **gamificação** (XP, badges) para incentivar hábitos saudáveis.
-4. Fornecer **simulador** comparativo de apostar vs investir.
-5. Demonstrar práticas de **segurança**, **tratamento de erros**, **CI/CD**, **containerização** e **performance**.
+---------------------------------------
+🔑 Funcionalidades da API
+---------------------------------------
 
----
+👤 Autenticação
+- Registro de novos usuários
+- Login com geração de token UUID
+- Validação de token em endpoints protegidos
 
-## 🛠 Tech Stack & Ferramentas
+💰 Transações
+- Criar entrada ou saída financeira
+- Listagem completa de transações
+- Listagem de transações por usuário
+- Consulta detalhada de uma transação
 
-| Camada             | Tecnologia / Ferramenta       |
-| ------------------ | ----------------------------- |
-| Linguagem          | Java 17                       |
-| Framework          | Spring Boot 3.5               |
-| Banco de Dados     | H2 (dev), PostgreSQL (prod)   |
-| Segurança          | Spring Security, UUID Tokens  |
-| Documentação       | springdoc-openapi (Swagger)   |
-| Containerização    | Docker, Docker Compose        |
-| CI/CD              | GitHub Actions, Docker Hub    |
-| Testes Unitários   | JUnit 5, Mockito              |
-| Testes Performance | Apache JMeter                 |
-| Versionamento      | Git, GitHub                   |
-| Governança         | Branch protection, CODEOWNERS |
+🏆 Gamificação (Badges)
+- Consulta de todos os badges
+- Consulta de badges de um usuário específico
 
----
+📊 Dashboard
+- Dados resumidos do usuário
+- Visão de saldo, XP, número de transações, badges e evolução
 
-## 🚀 Setup Local
+📈 Simulador — Apostei vs Investi
+- Gera uma análise comparativa entre apostar e investir baseado no comportamento do usuário
 
-### Pré-requisitos
+---------------------------------------
+📁 Estrutura do Projeto
+---------------------------------------
 
-* Java 17 (JDK)
-* Maven ou uso de Maven Wrapper
-* Docker & Docker Compose (opcional para DB externo)
-* Git
+cashcontrol-api/
+├── src/
+│   ├── main/
+│   │   ├── java/com/cashcontrol/ → código fonte da API
+│   │   └── resources/            → configs, application.yml
+│   └── test/                     → testes unitários
+├── Dockerfile                    → containerização
+├── docker-compose.yml            → banco PostgreSQL (opcional)
+├── mvnw / mvnw.cmd               → Maven Wrapper
+├── pom.xml                       → gerenciamento de dependências
+└── README.md                     → documentação do projeto
 
-### Clonar e Build
+---------------------------------------
+▶️ Como Executar o Projeto
+---------------------------------------
 
-```bash
-git clone https://github.com/<seu-usuario>/cashcontrol-api.git
+1️⃣ Clone o repositório:
+git clone https://github.com/efsartorelli/fiap-sprint-soap2
+
+2️⃣ Acesse a pasta:
 cd cashcontrol-api
+
+3️⃣ Compile o projeto:
 ./mvnw clean package -DskipTests
-```
 
+4️⃣ Execute o projeto:
+java -jar target/cashcontrol-api-0.0.1-SNAPSHOT.jar
 
-### 🚀 Execução da Aplicação
+✅ A API estará disponível em:
+http://localhost:8080
 
-* Após o **build** com Maven, execute:
+---------------------------------------
+🌐 Documentação Swagger
+---------------------------------------
 
-  ```bash
-  java -jar target/cashcontrol-api-0.0.1-SNAPSHOT.jar
-  ```
+Acesse:
+http://localhost:8080/swagger-ui.html
 
----
+Consulte, teste e visualize todos os endpoints disponíveis.
 
-## 📑 API & Documentação
+---------------------------------------
+🔗 Endpoints Principais
+---------------------------------------
 
-### Base URL v1
+| Método | Endpoint                         | Auth | Descrição                             |
+| ------ | --------------------------------- | ---- | -------------------------------------- |
+| POST   | /api/v1/users/register            | ❌   | Registrar novo usuário                |
+| POST   | /api/v1/users/login               | ❌   | Login e gerar token                   |
+| GET    | /api/v1/users/{id}                | ✔️   | Consultar dados do usuário            |
+| POST   | /api/v1/transacoes                | ✔️   | Criar uma transação                   |
+| GET    | /api/v1/transacoes                | ❌   | Listar todas as transações            |
+| GET    | /api/v1/transacoes/usuario/{id}   | ✔️   | Listar transações por usuário         |
+| GET    | /api/v1/transacoes/{id}           | ✔️   | Consultar transação específica        |
+| GET    | /api/v1/badges                    | ❌   | Listar todas as badges                |
+| GET    | /api/v1/badges/usuario/{id}       | ✔️   | Listar badges do usuário              |
+| GET    | /api/v1/badges/{id}               | ❌   | Consultar badge específico            |
+| GET    | /api/v1/dashboard/{id}            | ✔️   | Obter dados resumidos do dashboard    |
+| POST   | /api/v1/simulador/usuario/{id}    | ✔️   | Simulação Apostei vs Investi          |
 
-```
-http://localhost:8080/api/v1
-```
+⚠️ Endpoints marcados com ✔️ necessitam do header:
+Authorization: Bearer <token>
 
-### Autenticação
+---------------------------------------
+🚨 Tratamento de Erros
+---------------------------------------
 
-* **Registrar** (sem autenticação): `POST /users/register`
-* **Login**: `POST /users/login` → retorna `{ token }`
-* **Usar token** para endpoints protegidos: header `Authorization: Bearer <token>`
+✔️ 400 — Bad Request: Erros de validação (campos obrigatórios, formatos inválidos)
+✔️ 404 — Not Found: Recurso não encontrado (usuário, badge, transação)
+✔️ 500 — Internal Server Error: Erros inesperados no servidor
 
-### Endpoints Principais
+Todos os erros seguem o seguinte formato:
+{
+  "campo": "mensagem de erro"
+}
 
-See [Swagger UI](http://localhost:8080/swagger-ui.html) for full details.
+---------------------------------------
+🔒 Segurança Implementada
+---------------------------------------
 
-| Método | Endpoint                       | Auth | Descrição                     |
-| ------ | ------------------------------ | ---- | ----------------------------- |
-| POST   | `/users/register`              | ❌    | Registrar usuário             |
-| POST   | `/users/login`                 | ❌    | Autenticar e obter token      |
-| GET    | `/users/{id}`                  | ✔️   | Consultar perfil              |
-| POST   | `/transacoes`                  | ✔️   | Criar transação               |
-| GET    | `/transacoes`                  | ❌    | Listar todas transações       |
-| GET    | `/transacoes/usuario/{userId}` | ✔️   | Transações do usuário         |
-| GET    | `/transacoes/{id}`             | ✔️   | Buscar transação por ID       |
-| GET    | `/badges`                      | ❌    | Listar todas badges           |
-| GET    | `/badges/usuario/{userId}`     | ✔️   | Badges de um usuário          |
-| GET    | `/badges/{id}`                 | ❌    | Buscar badge por ID           |
-| GET    | `/dashboard/{userId}`          | ✔️   | Dashboard personalizado       |
-| POST   | `/simulador/usuario/{userId}`  | ✔️   | Simulação apostar vs investir |
+- Spring Security com autenticação baseada em Token UUID
+- Permissão pública apenas para /register e /login
+- Configurações centralizadas em SecurityConfig
+- Próximos passos: Implementar JWT, HTTPS, roles e RBAC
 
-> ✔️ requer header `Authorization`
+---------------------------------------
+⚙️ CI/CD & Governança
+---------------------------------------
 
----
+- GitHub Actions:
+  - Build Maven
+  - Execução de testes unitários
+  - Build da imagem Docker
+  - Deploy para Docker Hub
 
-## 🚨 Tratamento de Erros
+- Branch Protegida:
+  - PR obrigatório para a branch main
+  - CI rodando com sucesso
 
-Centralizado em `GlobalExceptionHandler`:
+- Governança:
+  - Controle de versionamento semântico
+  - CODEOWNERS para distribuição de responsabilidades
 
-* **400 Bad Request**: erros de validação (`@Valid`)
-* **404 Not Found**: recursos não encontrados (`UsuarioNaoEncontradoException`)
-* **500 Internal Server Error**: erros não tratados
+---------------------------------------
+🗺️ Roadmap
+---------------------------------------
 
-Exemplo de payload de erro:
+- 🔐 v2 → Implementar JWT + OAuth2 + HTTPS
+- 🔄 v3 → SOAP Service (WSDL + XSD)
+- 📱 v4 → Front-end Web/Responsivo (React/Next ou Flutter)
+- 🏦 v5 → Integrações com bancos reais, IA para recomendação financeira
 
-```json
-{ "campo": "mensagem de erro" }
-```
+---------------------------------------
+👨‍💻 Autores
+---------------------------------------
+- Eduardo de Oliveira Nistal — RM94524
+- Enzo Vazquez Sartorelli — RM94618
+- Kaue Pastori — RM98501
+- Nicolas Nogueira Boni — RM551965
+- Rodrigo Viana — RM551057
 
----
-
-## ⚡ Segurança
-
-* **Spring Security** + HTTP Basic para endpoints públicos
-* **Token UUID** gerado no login e validado em cada request
-* **Configuração** em `SecurityConfig` permite `/users/register` e `/users/login` sem autenticação
-* **Próximas melhorias**: JWT, HTTPS, roles e `@PreAuthorize`
-
----
-
----
-
-## 🛠 CI/CD & Governança
-
-### GitHub Actions
-
-Pipeline define:
-
-1. **build** (Maven package)
-2. **test** (JUnit)
-3. **upload artefato**
-4. **docker build & push** ao Docker Hub
-
-### Branch Protection & CODEOWNERS
-
-* **main** protegido: PR review, CI green
-* **CODEOWNERS** atribuem responsabilidades automaticamente
-
-### Versionamento Semantic
-
-* `pom.xml` usa versions `1.0.0`, `1.1.0` etc.
-* URLs versionadas: `/api/v1/...`, pronto para `/api/v2` (breaking changes)
-
----
-
-## 🔮 Roadmap
-
-* **v2**: JWT, OAuth2, HTTPS
-* **v3**: SOAP WebService + WSDL/XSD
-* **v4**: Front-end responsivo (React Native / Flutter)
-* **v5**: Integração com bancos reais, analytics avançado
-
----
-
-## 🤝 Contribuição
-
-1. Fork o repositório e clone localmente
-2. Crie branch feature/x
-3. Commit e PR para `main` após testes e reviews
-4. Siga as [Guia de Contribuição](CONTRIBUTING.md)
-
----
-
-## 📞 Contato
-
-* **Desenvolvedor**: Seu Nome ([seu-email@dominio.com](mailto:seu-email@dominio.com))
-* **GitHub**: [https://github.com/](https://github.com/)<seu-usuario>/cashcontrol-api
-* **LinkedIn**: [https://linkedin.com/in/](https://linkedin.com/in/)<seu-usuario>
-* **Issues & Support**: Abra tickets em GitHub Issues
-
----
-
-© 2025 CashControl. Todos os direitos reservados.
+---------------------------------------
+📚 Observações Finais
+---------------------------------------
+- Projeto acadêmico, não utilizar em produção real sem adaptações.
+- O banco H2 é usado apenas para desenvolvimento e testes locais.
+- A versão produtiva utiliza PostgreSQL e Docker para deploy.
+- API projetada para integração direta com o app mobile Cash Control.
